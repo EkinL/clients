@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Enum;
 
-enum ClientsStatusEnum: string
+enum DelivrerablesStatusEnum: string
 {
-    case NOT_STARTED = 'Not started';
+    case PENDING = 'Pending';
     case IN_PROGRESS = 'In progress';
     case COMPLETED = 'Completed';
     case CANCELLED = 'Cancelled';
