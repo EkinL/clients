@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Enum\ClientsStatusEnum;
 use App\Repository\ProjectsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,6 +37,17 @@ class Projects
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
     private ?Clients $id_client = null;
+
+    /**
+     * @var Collection<int, Testimonials>
+     */
+    #[ORM\OneToMany(targetEntity: Testimonials::class, mappedBy: 'id_project')]
+    private Collection $testimonials;
+
+    public function __construct()
+    {
+        $this->testimonials = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,6 +134,36 @@ class Projects
     public function setIdClient(?Clients $id_client): static
     {
         $this->id_client = $id_client;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Testimonials>
+     */
+    public function getTestimonials(): Collection
+    {
+        return $this->testimonials;
+    }
+
+    public function addTestimonial(Testimonials $testimonial): static
+    {
+        if (!$this->testimonials->contains($testimonial)) {
+            $this->testimonials->add($testimonial);
+            $testimonial->setIdProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTestimonial(Testimonials $testimonial): static
+    {
+        if ($this->testimonials->removeElement($testimonial)) {
+            // set the owning side to null (unless already changed)
+            if ($testimonial->getIdProject() === $this) {
+                $testimonial->setIdProject(null);
+            }
+        }
 
         return $this;
     }

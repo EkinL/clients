@@ -33,9 +33,16 @@ class Clients
     #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'id_client')]
     private Collection $projects;
 
+    /**
+     * @var Collection<int, Testimonials>
+     */
+    #[ORM\OneToMany(targetEntity: Testimonials::class, mappedBy: 'id_client')]
+    private Collection $testimonials;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->testimonials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -115,6 +122,36 @@ class Clients
             // set the owning side to null (unless already changed)
             if ($project->getIdClient() === $this) {
                 $project->setIdClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Testimonials>
+     */
+    public function getTestimonials(): Collection
+    {
+        return $this->testimonials;
+    }
+
+    public function addTestimonial(Testimonials $testimonial): static
+    {
+        if (!$this->testimonials->contains($testimonial)) {
+            $this->testimonials->add($testimonial);
+            $testimonial->setIdClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTestimonial(Testimonials $testimonial): static
+    {
+        if ($this->testimonials->removeElement($testimonial)) {
+            // set the owning side to null (unless already changed)
+            if ($testimonial->getIdClient() === $this) {
+                $testimonial->setIdClient(null);
             }
         }
 
