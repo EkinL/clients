@@ -23,10 +23,11 @@ class ProjectsType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('budget')
+            // Enum status
             ->add('status')
             ->add('id_client', EntityType::class, [
                 'class' => Clients::class,
-                'choice_label' => 'id',
+                'choice_label' => 'Email',
             ])
         ;
     }

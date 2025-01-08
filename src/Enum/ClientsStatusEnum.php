@@ -10,4 +10,5 @@ enum ClientsStatusEnum: string
     case IN_PROGRESS = 'In progress';
     case COMPLETED = 'Completed';
     case CANCELLED = 'Cancelled';
+    
 }
