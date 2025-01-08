@@ -3,14 +3,6 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-gray-50">
-  <body class="h-full">
-  ```
--->
     {% if error %}
         <div class="mb-3 text-red-600">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
