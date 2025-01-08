@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ProjectsType extends AbstractType
 {
@@ -23,8 +24,15 @@ class ProjectsType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('budget')
-            // Enum status
-            ->add('status')
+            // status is enum type
+            ->add('status', ChoiceType::class, [
+                'choices' => [
+                    'Not started' => 'Not started',
+                    'In Progress' => 'In Progress',
+                    'Completed' => 'Completed',
+                    'Cancelled' => 'Cancelled',
+                ],
+            ])
             ->add('id_client', EntityType::class, [
                 'class' => Clients::class,
                 'choice_label' => 'Email',
