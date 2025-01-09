@@ -17,9 +17,4 @@ class SubscriptionController extends AbstractController
             'controller_name' => 'SubscriptionController',
         ]);
     }
-
-    // form action="/create-checkout-session" method="POST"
-    #[Route('/create-checkout-session', name: 'app_create_checkout_session')]
-    public function createCheckoutSession(): Response
-    {
 }
