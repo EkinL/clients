@@ -45,8 +45,14 @@ final class ClientsController extends AbstractController
     #[Route('/{id}', name: 'app_clients_show', methods: ['GET'])]
     public function show(Clients $client): Response
     {
+
+        // get projects of the client
+        $projects = $client->getProjects();
+        
+        
         return $this->render('clients/show.html.twig', [
             'client' => $client,
+            'projects' => $projects,
         ]);
     }
 

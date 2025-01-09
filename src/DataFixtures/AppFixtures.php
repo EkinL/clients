@@ -31,16 +31,6 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
 
-        for ($i = 0; $i < self::MAX_PROJECTS; $i++) {
-            $project = new Projects();
-            $project->setTitle(title: "Project {$i}");
-            $project->setDescription(description: "Description of project {$i}");
-            $project->setStatus(ClientsStatusEnum::IN_PROGRESS);
-            $project->setStartDate(start_date: new \DateTime());
-            $project->setEndDate(end_date: new \DateTime('+1 month'));
-            $manager->persist(object: $project);
-        }
-
         for ($i = 0; $i < self::MAX_CLIENTS; $i++) {
             $client = new Clients();
             $client->setName(name: "Client {$i}");
@@ -49,6 +39,19 @@ class AppFixtures extends Fixture
             $client->setAdress(adress: "1 rue de la paix");
             $manager->persist(object: $client);
         }
+
+        for ($i = 0; $i < self::MAX_PROJECTS; $i++) {
+            $project = new Projects();
+            $project->setTitle(title: "Project {$i}");
+            $project->setDescription(description: "Description of project {$i}");
+            $project->setStatus(ClientsStatusEnum::IN_PROGRESS);
+            $project->setStartDate(start_date: new \DateTime());
+            $project->setEndDate(end_date: new \DateTime('+1 month'));
+            $project->setIdClient((int)random_int(1, self::MAX_CLIENTS));
+            $project->setBudget(budget: 1000);
+            $manager->persist(object: $project);
+        }
+
 
         for ($i = 0; $i < self::MAX_USERS; $i++) {
             $user = new User();

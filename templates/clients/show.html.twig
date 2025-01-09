@@ -3,36 +3,76 @@
 {% block title %}Clients{% endblock %}
 
 {% block body %}
-    <h1>Clients</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ client.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ client.name }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ client.email }}</td>
-            </tr>
-            <tr>
-                <th>Phone</th>
-                <td>{{ client.phone }}</td>
-            </tr>
-            <tr>
-                <th>Adress</th>
-                <td>{{ client.adress }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_clients_index') }}">back to list</a>
-
-    <a href="{{ path('app_clients_edit', {'id': client.id}) }}">edit</a>
-
+<div class="md:flex md:items-center md:justify-between mb-4">
+  <div class="min-w-0 flex-1">
+    <h2 class="text-2xl/7 font-bold sm:truncate sm:text-3xl sm:tracking-tight">Client</h2>
+  </div>
+  <div class="mt-4 flex md:mt-0 md:ml-4">
+    <button type="button" class="inline-flex items-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20">Edit</button>
+    <a href="{{ path('app_clients_index') }}"><button type="button" class="ml-3 inline-flex items-center rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">Back to list</button></a>
+    <a href="{{ path('app_clients_edit', {'id': client.id}) }}"><button type="button" class="ml-3 inline-flex items-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Edit</button></a>
     {{ include('clients/_delete_form.html.twig') }}
+  </div>
+</div>
+
+
+    <div>
+  <div class="mt-6 border-t border-gray-100">
+    <dl class="divide-y divide-gray-100">
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Full name</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{{ client.name }}</dd>
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Phone</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{{ client.phone }}</dd>
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Email address</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{{ client.email }}</dd>
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Address</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{{ client.adress }}</dd>
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Projects</dt>
+        <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+            {% for project in projects %}
+          <ul role="list" class="divide-y divide-gray-100 rounded-md border border-gray-200">
+            <li class="flex items-center justify-between py-4 pr-5 pl-4 text-sm/6">
+              <div class="flex w-0 flex-1 items-center">
+                <svg class="size-5 shrink-0 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                  <path fill-rule="evenodd" d="M15.621 4.379a3 3 0 0 0-4.242 0l-7 7a3 3 0 0 0 4.241 4.243h.001l.497-.5a.75.75 0 0 1 1.064 1.057l-.498.501-.002.002a4.5 4.5 0 0 1-6.364-6.364l7-7a4.5 4.5 0 0 1 6.368 6.36l-3.455 3.553A2.625 2.625 0 1 1 9.52 9.52l3.45-3.451a.75.75 0 1 1 1.061 1.06l-3.45 3.451a1.125 1.125 0 0 0 1.587 1.595l3.454-3.553a3 3 0 0 0 0-4.242Z" clip-rule="evenodd" />
+                </svg>
+                <div class="ml-4 flex min-w-0 flex-1 gap-2">
+                  <span class="truncate font-medium">{{ project.title }}</span>
+                  <span class="shrink-0 text-gray-400">#{{ project.id }}</span>
+                </div>
+              </div>
+              <div class="ml-4 shrink-0">
+                <a href="{{ path('app_projects_show', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
+              </div>
+            </li>
+            {% else %}
+                    <div class="rounded-md bg-blue-50 p-4">
+                    <div class="flex">
+                        <div class="shrink-0">
+                        <svg class="size-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+                        </svg>
+                        </div>
+                        <div class="ml-3 flex-1 md:flex md:justify-between">
+                        <p class="text-sm text-blue-700">No projects found.</p>
+                        </div>
+                    </div>
+                    </div>
+            {% endfor %}
+          </ul>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+
 {% endblock %}
