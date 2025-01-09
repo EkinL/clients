@@ -50,7 +50,7 @@
 
         <div class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 ring-1 shadow-lg ring-gray-900/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="options-menu-0-button" tabindex="-1">
           <a href="{{ path('app_projects_edit', {'id': project.id}) }}" class="block px-3 py-1 text-sm/6 text-gray-900" role="menuitem" tabindex="-1" id="options-menu-0-item-0">Edit<span class="sr-only">, Edit</span></a>
-          <a href="#" class="block px-3 py-1 text-sm/6 text-gray-900" role="menuitem" tabindex="-1" id="options-menu-0-item-2">Delete<span class="sr-only">, Delete</span></a>
+          {{ include('projects/_delete_form.html.twig') }}
         </div>
       </div>
     </div>

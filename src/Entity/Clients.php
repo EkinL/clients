@@ -21,28 +21,21 @@ class Clients
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $adress = null;
+    private ?string $address = null;
 
     /**
      * @var Collection<int, Projects>
      */
-    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'id_client')]
+    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'client')]
     private Collection $projects;
-
-    /**
-     * @var Collection<int, Testimonials>
-     */
-    #[ORM\OneToMany(targetEntity: Testimonials::class, mappedBy: 'id_client')]
-    private Collection $testimonials;
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
-        $this->testimonials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,14 +79,14 @@ class Clients
         return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(?string $adress): static
+    public function setAddress(?string $address): static
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }
@@ -110,7 +103,7 @@ class Clients
     {
         if (!$this->projects->contains($project)) {
             $this->projects->add($project);
-            $project->setIdClient($this);
+            $project->setClient($this);
         }
 
         return $this;
@@ -120,38 +113,8 @@ class Clients
     {
         if ($this->projects->removeElement($project)) {
             // set the owning side to null (unless already changed)
-            if ($project->getIdClient() === $this) {
-                $project->setIdClient(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Testimonials>
-     */
-    public function getTestimonials(): Collection
-    {
-        return $this->testimonials;
-    }
-
-    public function addTestimonial(Testimonials $testimonial): static
-    {
-        if (!$this->testimonials->contains($testimonial)) {
-            $this->testimonials->add($testimonial);
-            $testimonial->setIdClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTestimonial(Testimonials $testimonial): static
-    {
-        if ($this->testimonials->removeElement($testimonial)) {
-            // set the owning side to null (unless already changed)
-            if ($testimonial->getIdClient() === $this) {
-                $testimonial->setIdClient(null);
+            if ($project->getClient() === $this) {
+                $project->setClient(null);
             }
         }
 

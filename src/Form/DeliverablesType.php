@@ -20,7 +20,7 @@ class DeliverablesType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('status')
-            ->add('id_project', EntityType::class, [
+            ->add('project', EntityType::class, [
                 'class' => Projects::class,
                 'choice_label' => 'id',
             ])

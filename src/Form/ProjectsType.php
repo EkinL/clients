@@ -17,10 +17,10 @@ class ProjectsType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('start_date', null, [
+            ->add('startDate', null, [
                 'widget' => 'single_text',
             ])
-            ->add('end_date', null, [
+            ->add('endDate', null, [
                 'widget' => 'single_text',
             ])
             ->add('budget')
@@ -33,7 +33,7 @@ class ProjectsType extends AbstractType
                     'Cancelled' => 'Cancelled',
                 ],
             ])
-            ->add('id_client', EntityType::class, [
+            ->add('client', EntityType::class, [
                 'class' => Clients::class,
                 'choice_label' => 'Email',
             ])

@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use App\Enum\ClientsStatusEnum;
 use App\Repository\ProjectsRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,30 +22,19 @@ class Projects
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $start_date = null;
+    private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $end_date = null;
+    private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $budget = null;
 
-    #[ORM\Column(enumType: ClientsStatusEnum::class)]
-    private ?ClientsStatusEnum $status = null;
-
     #[ORM\ManyToOne(inversedBy: 'projects')]
-    private ?Clients $id_client = null;
+    private ?Clients $client = null;
 
-    /**
-     * @var Collection<int, Testimonials>
-     */
-    #[ORM\OneToMany(targetEntity: Testimonials::class, mappedBy: 'id_project')]
-    private Collection $testimonials;
-
-    public function __construct()
-    {
-        $this->testimonials = new ArrayCollection();
-    }
+    #[ORM\Column(nullable: true, enumType: ClientsStatusEnum::class)]
+    private ?ClientsStatusEnum $status = null;
 
     public function getId(): ?int
     {
@@ -80,24 +67,24 @@ class Projects
 
     public function getStartDate(): ?\DateTimeInterface
     {
-        return $this->start_date;
+        return $this->startDate;
     }
 
-    public function setStartDate(?\DateTimeInterface $start_date): static
+    public function setStartDate(?\DateTimeInterface $startDate): static
     {
-        $this->start_date = $start_date;
+        $this->startDate = $startDate;
 
         return $this;
     }
 
     public function getEndDate(): ?\DateTimeInterface
     {
-        return $this->end_date;
+        return $this->endDate;
     }
 
-    public function setEndDate(?\DateTimeInterface $end_date): static
+    public function setEndDate(?\DateTimeInterface $endDate): static
     {
-        $this->end_date = $end_date;
+        $this->endDate = $endDate;
 
         return $this;
     }
@@ -114,56 +101,26 @@ class Projects
         return $this;
     }
 
+    public function getClient(): ?Clients
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Clients $client): static
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
     public function getStatus(): ?ClientsStatusEnum
     {
         return $this->status;
     }
 
-    public function setStatus(ClientsStatusEnum $status): static
+    public function setStatus(?ClientsStatusEnum $status): static
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getIdClient(): ?Clients
-    {
-        return $this->id_client;
-    }
-
-    public function setIdClient(?Clients $id_client): static
-    {
-        $this->id_client = $id_client;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Testimonials>
-     */
-    public function getTestimonials(): Collection
-    {
-        return $this->testimonials;
-    }
-
-    public function addTestimonial(Testimonials $testimonial): static
-    {
-        if (!$this->testimonials->contains($testimonial)) {
-            $this->testimonials->add($testimonial);
-            $testimonial->setIdProject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTestimonial(Testimonials $testimonial): static
-    {
-        if ($this->testimonials->removeElement($testimonial)) {
-            // set the owning side to null (unless already changed)
-            if ($testimonial->getIdProject() === $this) {
-                $testimonial->setIdProject(null);
-            }
-        }
 
         return $this;
     }
