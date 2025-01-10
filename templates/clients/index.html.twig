@@ -26,7 +26,12 @@
             </div>
             <p class="mt-1 truncate text-sm text-gray-500">{{ client.email }}</p>
         </div>
-        <img class="size-10 shrink-0 rounded-full bg-gray-300" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+        {% if client.picture %}
+        <img class="size-10 shrink-0 rounded-full bg-gray-300" src="{{ asset('uploads/clients/' ~ client.picture) }}" alt="">
+        
+        {% else %}
+        <img class="size-10 shrink-0 rounded-full bg-gray-300" src="https://ui-avatars.com/api/?name={{ client.name|replace({' ': '+'}) }}&color=7F9CF5&background=EBF4FF" alt="">
+        {% endif %}
         </div>
         <div>
         <div class="-mt-px flex divide-x divide-gray-200">
