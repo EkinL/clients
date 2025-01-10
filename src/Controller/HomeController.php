@@ -24,4 +24,12 @@ class HomeController extends AbstractController
             'clients' => $clients
         ]);
     }
+
+    #[Route('/bot', name: 'app_bot')]
+    public function bot(): Response
+    {
+        return $this->render('chatbot/index.html.twig', [
+            'controller_name' => 'chatbotController',
+        ]);
+    }
 }
