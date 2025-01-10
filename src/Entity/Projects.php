@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Enum\ClientsStatusEnum;
 use App\Repository\ProjectsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,6 +37,17 @@ class Projects
 
     #[ORM\Column(nullable: true, enumType: ClientsStatusEnum::class)]
     private ?ClientsStatusEnum $status = null;
+
+    /**
+     * @var Collection<int, Deliverables>
+     */
+    #[ORM\OneToMany(targetEntity: Deliverables::class, mappedBy: 'project')]
+    private Collection $deliverables;
+
+    public function __construct()
+    {
+        $this->deliverables = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,6 +134,36 @@ class Projects
     public function setStatus(?ClientsStatusEnum $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Deliverables>
+     */
+    public function getDeliverables(): Collection
+    {
+        return $this->deliverables;
+    }
+
+    public function addDeliverable(Deliverables $deliverable): static
+    {
+        if (!$this->deliverables->contains($deliverable)) {
+            $this->deliverables->add($deliverable);
+            $deliverable->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeliverable(Deliverables $deliverable): static
+    {
+        if ($this->deliverables->removeElement($deliverable)) {
+            // set the owning side to null (unless already changed)
+            if ($deliverable->getProject() === $this) {
+                $deliverable->setProject(null);
+            }
+        }
 
         return $this;
     }
