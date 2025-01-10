@@ -1,47 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Projects{% endblock %}
+{% block title %}Project{% endblock %}
 
 {% block body %}
-    <h1>Projects</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ project.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ project.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ project.description }}</td>
-            </tr>
-            <tr>
-                <th>Start_date</th>
-                <td>{{ project.startDate ? project.startDate|date('d-m-Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End_date</th>
-                <td>{{ project.endDate ? project.endDate|date('d-m-Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Budget</th>
-                <td>{{ project.budget }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ project.status.value }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_projects_index') }}">back to list</a>
-
-    <a href="{{ path('app_projects_edit', {'id': project.id}) }}">edit</a>
-
+<div class="md:flex md:items-center md:justify-between mb-4">
+  <div class="min-w-0 flex-1">
+    <h2 class="text-2xl/7 font-bold sm:truncate sm:text-3xl sm:tracking-tight">Project</h2>
+  </div>
+  <div class="mt-4 flex md:mt-0 md:ml-4">
+    <button type="button" class="inline-flex items-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-white/20">Edit</button>
+    <a href="{{ path('app_projects_index') }}"><button type="button" class="ml-3 inline-flex items-center rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-gray-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">Back to list</button></a>
+    <a href="{{ path('app_projects_edit', {'id': project.id}) }}"><button type="button" class="ml-3 inline-flex items-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Edit</button></a>
     {{ include('projects/_delete_form.html.twig') }}
+  </div>
+</div>
+
+
+    <div>
+  <div class="mt-6 border-t border-gray-100">
+    <dl class="divide-y divide-gray-100">
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Title</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{{ project.title }}</dd>
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Description</dt>
+        {% if project.description %}
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{{ project.description }}</dd>
+        {% else %}
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">No description</dd>
+        {% endif %}
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Budget</dt>
+        {% if project.budget %}
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{{ project.budget }} €</dd>
+        {% else %}
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">No budget</dd>
+        {% endif %}
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Date</dt>
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">Date de début : {{ project.startDate ? project.startDate|date('d-m-Y') : '' }} - Date de fin : {{ project.endDate ? project.endDate|date('d-m-Y') : '' }}</dd>
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Status</dt>
+        {% if project.status %}
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{{ project.status.value }}</dd>
+        {% else %}
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">No status</dd>
+        {% endif %}
+      </div>
+      <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <dt class="text-sm/6 font-medium text-gray-900">Status</dt>
+        {% if project.client %}
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">{{ project.client }}</dd>
+        {% else %}
+        <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">No client</dd>
+        {% endif %}
+      </div>
+    </dl>
+  </div>
+</div>
 
 {% endblock %}
