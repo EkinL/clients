@@ -33,6 +33,9 @@ class Clients
     #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'client')]
     private Collection $projects;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $picture = null;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -117,6 +120,18 @@ class Clients
                 $project->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): static
+    {
+        $this->picture = $picture;
 
         return $this;
     }
