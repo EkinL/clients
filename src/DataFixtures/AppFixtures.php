@@ -49,7 +49,7 @@ class AppFixtures extends Fixture
             $project->setStatus(ClientsStatusEnum::IN_PROGRESS);
             $project->setStartDate(startDate: new \DateTime());
             $project->setEndDate(endDate: new \DateTime('+1 month'));
-            // $project->setIdClient(array_rand($clients));
+            $project->setClient($clients[array_rand($clients)]);
             $project->setBudget(budget: 1000);
             $manager->persist(object: $project);
         }
