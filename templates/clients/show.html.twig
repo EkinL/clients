@@ -5,6 +5,11 @@
 {% block body %}
 <div class="md:flex md:items-center md:justify-between mb-4">
   <div class="min-w-0 flex-1">
+  {% if client.picture %}
+  <img class="h-12 w-12 rounded-full" src="{{ asset('uploads/clients/' ~ client.picture) }}" alt="">
+  {% else %}
+  <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name={{ client.name }}&color=7F9CF5&background=EBF4FF" alt="">
+  {% endif %}
     <h2 class="text-2xl/7 font-bold sm:truncate sm:text-3xl sm:tracking-tight">Client</h2>
   </div>
   <div class="mt-4 flex md:mt-0 md:ml-4">
