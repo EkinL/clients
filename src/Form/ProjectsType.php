@@ -9,6 +9,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\OptionsResolver\Options;
+use App\Enum\ClientsStatusEnum;
 
 class ProjectsType extends AbstractType
 {
@@ -26,18 +29,16 @@ class ProjectsType extends AbstractType
             ->add('budget')
             // status is enum type
             ->add('status', ChoiceType::class, [
-                'choices' => [
-                    'Not started' => 'Not started',
-                    'In Progress' => 'In Progress',
-                    'Completed' => 'Completed',
-                    'Cancelled' => 'Cancelled',
-                ],
+                'choices' => array_combine(
+                    array_map(fn(ClientsStatusEnum $enum) => ucfirst(strtolower($enum->name)), ClientsStatusEnum::cases()), // Labels
+                    array_map(fn(ClientsStatusEnum $enum) => $enum->value, ClientsStatusEnum::cases()) // Valeurs
+                ),
+                'choice_label' => null, // Permet d'utiliser les labels générés dans le tableau
             ])
             ->add('client', EntityType::class, [
                 'class' => Clients::class,
                 'choice_label' => 'Email',
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
