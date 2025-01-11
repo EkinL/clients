@@ -89,7 +89,7 @@ This is a Symfony project configured with Webpack Encore for asset management an
 
 ## Contributing
 
-Feel free to submit issues and pull requests.
+@EkinL
 
 ## License
 
