@@ -23,7 +23,7 @@
                 <td>{{ deliverable.name }}</td>
                 <td>{{ deliverable.description }}</td>
                 <td>{{ deliverable.deliveryDate ? deliverable.deliveryDate|date('Y-m-d') : '' }}</td>
-                <td>{{ deliverable.status }}</td>
+                <td>{{ deliverable.status.value }}</td>
                 <td>
                     <a href="{{ path('app_deliverables_show', {'id': deliverable.id}) }}">show</a>
                     <a href="{{ path('app_deliverables_edit', {'id': deliverable.id}) }}">edit</a>
