@@ -9,6 +9,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Enum\ClientsStatusEnum;
+use App\Entity\Deliverables;
+use App\Enum\DelivrerablesStatusEnum;
 
 
 
@@ -27,6 +29,7 @@ class AppFixtures extends Fixture
     public const MAX_USERS = 10;
     public const MAX_CLIENTS = 10;
     public const MAX_PROJECTS = 10;
+    public const MAX_DELIVERABLES = 10;
 
     public function load(ObjectManager $manager): void
     {
@@ -52,8 +55,19 @@ class AppFixtures extends Fixture
             $project->setClient($clients[array_rand($clients)]);
             $project->setBudget(budget: 1000);
             $manager->persist(object: $project);
+            $projects[] = $project;
         }
 
+
+        for ($i = 0; $i < self::MAX_DELIVERABLES; $i++) {
+            $deliverable = new Deliverables();
+            $deliverable->setName(name: "Deliverable {$i}");
+            $deliverable->setDescription(Description: "Description of deliverable {$i}");
+            $deliverable->setDeliveryDate(deliveryDate: new \DateTime());
+            $deliverable->setProject($projects[array_rand($projects)]);
+            $deliverable->setStatus(DelivrerablesStatusEnum::COMPLETED);
+            $manager->persist(object: $deliverable);
+        }
 
         for ($i = 0; $i < self::MAX_USERS; $i++) {
             $user = new User();
