@@ -7,6 +7,8 @@ parameters:
     picture_directory: '%kernel.project_dir%/public/uploads/clients'
 
 services:
+    App\Command\GenerateAppSecretCommand:
+        tags: ['console.command']
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
