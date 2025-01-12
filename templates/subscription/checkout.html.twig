@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SubscriptionController!{% endblock %}
+
+{% block body %}
+<body>
+    <h1>Paiement Stripe</h1>
+    <p>Prix : 20,00 USD</p>
+    <button id="checkout-button">Payer Maintenant</button>
+
+    <script>
+        const stripe = Stripe("pk_test_51PYFSpBTpbjFXff3lHwADSdCoV8YivaPJPEiMuqS4lFLmtU4e69qBjFBrEh2t6IQzBJG6AO5048rUGZenmqNrjPD00bw8byh9s"); // Votre clé API publique
+
+        document.getElementById("checkout-button").addEventListener("click", function () {
+            stripe.redirectToCheckout({
+                sessionId: "{{ checkout_session_id }}"
+            }).then(function (result) {
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+{% endblock %}
