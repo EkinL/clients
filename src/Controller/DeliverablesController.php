@@ -30,6 +30,7 @@ final class DeliverablesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($deliverable);
             $entityManager->flush();
 
