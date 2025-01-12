@@ -27,14 +27,7 @@ class ProjectsType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('budget')
-            // status is enum type
-            ->add('status', ChoiceType::class, [
-                'choices' => array_combine(
-                    array_map(fn(ClientsStatusEnum $enum) => ucfirst(strtolower($enum->name)), ClientsStatusEnum::cases()), // Labels
-                    array_map(fn(ClientsStatusEnum $enum) => $enum->value, ClientsStatusEnum::cases()) // Valeurs
-                ),
-                'choice_label' => null, // Permet d'utiliser les labels générés dans le tableau
-            ])
+            ->add('status', EnumType::class, ['class' => 'App\Enum\ClientsStatusEnum'])
             ->add('client', EntityType::class, [
                 'class' => Clients::class,
                 'choice_label' => 'Email',
