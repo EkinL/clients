@@ -15,7 +15,7 @@ class DeliverablesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
+        $builder 
             ->add('name')
             ->add('description')
             ->add('deliveryDate', null, [

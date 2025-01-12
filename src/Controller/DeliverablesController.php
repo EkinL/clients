@@ -42,7 +42,7 @@ final class DeliverablesController extends AbstractController
             'form' => $form,
         ]);
     }
-
+ 
     #[Route('/{id}', name: 'app_deliverables_show', methods: ['GET'])]
     public function show(Deliverables $deliverable): Response
     {
