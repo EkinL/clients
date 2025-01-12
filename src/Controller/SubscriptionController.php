@@ -42,12 +42,16 @@ class SubscriptionController extends AbstractController
     #[Route('/success', name: 'app_success')]
     public function success(): Response
     {
-        return new Response('<h1>Paiement réussi ! Merci pour votre achat.</h1>');
+        return $this->render('subscription/success.html.twig', [
+            'checkout_session_id' => 'session_123',
+        ]);
     }
 
     #[Route('/cancel', name: 'app_cancel')]
     public function cancel(): Response
     {
-        return new Response('<h1>Paiement annulé. Veuillez réessayer.</h1>');
+        return $this->render('subscription/cancel.html.twig', [
+            'checkout_session_id' => 'session_123',
+        ]);
     }
 }
