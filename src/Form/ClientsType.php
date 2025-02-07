@@ -8,6 +8,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class ClientsType extends AbstractType
 {
@@ -31,6 +34,19 @@ class ClientsType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image file',
                     ])
                 ],
+            ])
+            ->add('generateWithAI', CheckboxType::class, [
+                'label' => 'Générer une image avec l’IA',
+                'required' => false,
+                'mapped' => false,
+            ])
+            ->add('prompt', TextType::class, [
+                'label' => 'Prompt pour l’IA',
+                'required' => false,
+                'mapped' => false,
+                'attr' => [
+                    'placeholder' => 'Décris l’image que tu veux générer...',
+                ]
             ])
         ;
     }

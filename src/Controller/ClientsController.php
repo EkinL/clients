@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\String\Slugger\Slugger;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use App\Service\ImageGeneratorService;
 
 
 
@@ -27,37 +29,35 @@ final class ClientsController extends AbstractController
     }
 
     #[Route('/new', name: 'app_clients_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        ImageGeneratorService $imageGeneratorService
+    ): Response {
+        set_time_limit(0);
         $client = new Clients();
         $form = $this->createForm(ClientsType::class, $client);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('generateWithAI')->getData()) {
+                $prompt = $form->get('prompt')->getData() ?? "Avatar généré";
+                $imageFileName = $imageGeneratorService->generateImage($prompt);
 
-            $picture = $form->get('picture')->getData();
-
-            if ($picture) {
-                $originalFilename = pathinfo($picture->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$picture->guessExtension();
-
-                try {
-                    $picture->move(
-                        $this->getParameter('picture_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                if (!$imageFileName) {
+                    $this->addFlash('danger', "Erreur : l'image n'a pas pu être générée.");
+                    return $this->redirectToRoute('app_clients_new');
                 }
 
-                $client->setPicture($newFilename);
+                $client->setPicture($imageFileName);
+                $client->setPrompt($prompt);
             }
 
             $entityManager->persist($client);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_clients_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_clients_index');
         }
 
         return $this->render('clients/new.html.twig', [

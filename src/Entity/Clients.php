@@ -36,6 +36,12 @@ class Clients
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $generateWithAI = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $prompt = null;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
@@ -132,6 +138,30 @@ class Clients
     public function setPicture(?string $picture): static
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function isGenerateWithAI(): ?bool
+    {
+        return $this->generateWithAI;
+    }
+
+    public function setGenerateWithAI(?bool $generateWithAI): static
+    {
+        $this->generateWithAI = $generateWithAI;
+
+        return $this;
+    }
+
+    public function getPrompt(): ?string
+    {
+        return $this->prompt;
+    }
+
+    public function setPrompt(?string $prompt): static
+    {
+        $this->prompt = $prompt;
 
         return $this;
     }

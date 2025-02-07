@@ -1,117 +1,123 @@
 <div class="space-y-10 divide-y divide-gray-900/10">
+	<div class="flex justify-center m-auto gap-x-8 gap-y-8 pt-10 ">
+		<div class="bg-white ring-1 shadow-xs ring-gray-900/5 sm:rounded-xl md:col-span-2">
+			{{ form_start(form, { 'attr': {'id': 'clientForm'} }) }}
+			<div class="px-4 py-6 sm:p-8">
+				<div
+					class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
-  <div class="flex justify-center m-auto gap-x-8 gap-y-8 pt-10 ">
-    <div class="bg-white ring-1 shadow-xs ring-gray-900/5 sm:rounded-xl md:col-span-2">
-    {{ form_start(form) }}
-      <div class="px-4 py-6 sm:p-8">
-        <div class="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        
-          <div class="col-span-full">
-            <label for="name" class="block text-sm/6 font-medium text-gray-900">Name</label>
-            <div class="mt-2">
-              <input type="text" name="{{ field_name(form.name) }}" value="{{ field_value(form.name) }}" id="name" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 border">
-            </div>
-          </div>
-          <div class="sm:col-span-3">
-            <label for="email" class="block text-sm/6 font-medium text-gray-900">Email</label>
-            <div class="mt-2">
-              <input type="email" name="{{ field_name(form.email) }}" value="{{ field_value(form.email) }}" id="email" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 border">
-            </div>
-          </div>
+					<!-- Name -->
+					<div class="col-span-full">
+						<label for="name" class="block text-sm font-medium text-gray-900">Name</label>
+						<div class="mt-2">
+							<input type="text" name="{{ field_name(form.name) }}" value="{{ field_value(form.name) }}" id="name" class="block w-full rounded-md border px-3 py-1.5 text-gray-900">
+						</div>
+					</div>
 
-          <div class="sm:col-span-3">
-            <label for="phone" class="block text-sm/6 font-medium text-gray-900">Phone</label>
-            <div class="mt-2">
-              <input type="text" name="{{ field_name(form.phone) }}" value="{{ field_value(form.phone) }}" id="phone" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 border">
-            </div>
-          </div>
+					<!-- Email -->
+					<div class="sm:col-span-3">
+						<label for="email" class="block text-sm font-medium text-gray-900">Email</label>
+						<div class="mt-2">
+							<input type="email" name="{{ field_name(form.email) }}" value="{{ field_value(form.email) }}" id="email" class="block w-full rounded-md border px-3 py-1.5 text-gray-900">
+						</div>
+					</div>
 
-        <div class="col-span-full">
-          <label for="cover-photo" class="block text-sm/6 font-medium text-gray-900">Cover photo</label>
-          <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-            <div class="text-center">
-              <svg class="mx-auto size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
-                <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clip-rule="evenodd" />
-              </svg>
-              <div class="mt-4 flex text-sm/6 text-gray-600">
-                <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500">
-                  <span>Upload a picture</span>
-                  <input id="file-upload" name="{{ field_name(form.picture) }}" value="{{ field_value(form.picture) }}" type="file" class="sr-only">
-                </label>
-                <p class="pl-1">or drag and drop</p>
-              </div>
-              <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-            </div>
-          </div>
-        </div>
+					<!-- Phone -->
+					<div class="sm:col-span-3">
+						<label for="phone" class="block text-sm font-medium text-gray-900">Phone</label>
+						<div class="mt-2">
+							<input type="text" name="{{ field_name(form.phone) }}" value="{{ field_value(form.phone) }}" id="phone" class="block w-full rounded-md border px-3 py-1.5 text-gray-900">
+						</div>
+					</div>
 
-          <div class="col-span-full">
-            <label for="Address" class="block text-sm/6 font-medium text-gray-900">Address</label>
-            <div class="mt-2">
-              <input type="text" name="{{ field_name(form.address) }}" value="{{ field_value(form.address) }}" id="Address" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 border">
-            </div>
-          </div>
+					<!-- Cover Photo Upload -->
+					<div class="col-span-full">
+						<label for="cover-photo" class="block text-sm font-medium text-gray-900">Cover photo</label>
+						<div class="mt-2 flex justify-center rounded-lg border border-dashed px-6 py-10">
+							<div class="text-center">
+								<input id="file-upload" name="{{ field_name(form.picture) }}" type="file" class="sr-only">
+								<label for="file-upload" class="cursor-pointer bg-white text-indigo-600 hover:text-indigo-500">
+									<span>Upload a picture</span>
+								</label>
+								<p class="text-xs text-gray-600">PNG, JPG, GIF up to 10MB</p>
+							</div>
+						</div>
+					</div>
 
-        </div>
-      </div>
-      <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
-        <a href="{{ path('app_clients_index') }}"><button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button></a>
-        <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ button_label|default('Save') }}</button>
-      </div>
-      {{ form_end(form) }}
-    </div>
-  </div>
+					<!-- Address -->
+					<div class="col-span-full">
+						<label for="Address" class="block text-sm font-medium text-gray-900">Address</label>
+						<div class="mt-2">
+							<input type="text" name="{{ field_name(form.address) }}" value="{{ field_value(form.address) }}" id="Address" class="block w-full rounded-md border px-3 py-1.5 text-gray-900">
+						</div>
+					</div>
+
+					<!-- Génération avec IA -->
+					<div class="sm:col-span-3">
+						<label for="generateWithAI" class="block text-sm font-medium text-gray-900">Générer avec IA</label>
+						<div class="mt-2">
+							<input type="checkbox" name="{{ field_name(form.generateWithAI) }}" value="{{ field_value(form.generateWithAI) }}" id="generateWithAI" class="rounded-md border">
+						</div>
+					</div>
+
+					<!-- Prompt IA -->
+					<div class="sm:col-span-3">
+						<label for="prompt" class="block text-sm font-medium text-gray-900">Prompt IA</label>
+						<div class="mt-2">
+							<input type="text" name="{{ field_name(form.prompt) }}" value="{{ field_value(form.prompt) }}" id="prompt" class="block w-full rounded-md border px-3 py-1.5 text-gray-900">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Boutons -->
+			<div class="flex items-center justify-end gap-x-6 border-t px-4 py-4 sm:px-8">
+				<a href="{{ path('app_clients_index') }}">
+					<button type="button" class="text-sm font-semibold text-gray-900">Cancel</button>
+				</a>
+				<button type="submit" id="submitButton" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500">
+					{{ button_label|default('Save') }}
+				</button>
+			</div>
+
+			<!-- Loader -->
+			<div id="loadingScreen" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 text-white text-lg hidden">
+				<div class="text-center">
+					<p>Génération en cours... ⏳</p>
+					<div class="mt-3 w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+				</div>
+			</div>
+
+			{{ form_end(form) }}
+		</div>
+	</div>
 </div>
 
+<!-- JavaScript -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const dropArea = document.querySelector('.mt-2.flex.justify-center'); // Zone de dépôt
-  const fileInput = document.getElementById('file-upload'); // Champ input file
-  const fileNameDisplay = document.createElement('p'); // Élément pour afficher le nom du fichier
-  fileNameDisplay.classList.add('mt-2', 'text-sm', 'text-gray-700'); // Ajout de classes pour le style
-  dropArea.appendChild(fileNameDisplay); // Ajout de l'élément à la zone de dépôt
+	document.addEventListener("DOMContentLoaded", function () {
+let form = document.getElementById("clientForm");
+let generateWithAI = document.getElementById("generateWithAI");
+let submitButton = document.getElementById("submitButton");
+let loadingScreen = document.getElementById("loadingScreen");
 
-  // Fonction pour afficher le nom du fichier
-  const displayFileName = (file) => {
-    if (file) {
-      fileNameDisplay.textContent = `Fichier sélectionné : ${file.name}`;
-      console.log('Fichier sélectionné :', file.name);
-    }
-  };
+form.addEventListener("submit", function (event) {
+if (generateWithAI.checked) {
+event.preventDefault();
+// Empêche l'envoi immédiat du formulaire
 
-  // Empêche le comportement par défaut pour dragover et drop
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, (e) => e.preventDefault());
-    dropArea.addEventListener(eventName, (e) => e.stopPropagation());
-  });
+// Affiche l'écran de chargement
+loadingScreen.classList.remove("hidden");
 
-  // Ajoute des styles visuels pour les états de dragover et dragleave
-  ['dragenter', 'dragover'].forEach(eventName => {
-    dropArea.addEventListener(eventName, () => {
-      dropArea.classList.add('border-indigo-600');
-    });
-  });
+// Désactive le bouton pour éviter plusieurs clics
+submitButton.disabled = true;
+submitButton.classList.add("opacity-50", "cursor-not-allowed");
 
-  ['dragleave', 'drop'].forEach(eventName => {
-    dropArea.addEventListener(eventName, () => {
-      dropArea.classList.remove('border-indigo-600');
-    });
-  });
-
-  // Gestion du dépôt de fichier
-  dropArea.addEventListener('drop', (e) => {
-    const files = e.dataTransfer.files; // Récupère les fichiers déposés
-    if (files.length > 0) {
-      fileInput.files = files; // Met à jour les fichiers du champ input
-      displayFileName(files[0]); // Affiche le nom du fichier
-    }
-  });
-
-  // Gestion de la sélection de fichier via le bouton "Upload a picture"
-  fileInput.addEventListener('change', () => {
-    if (fileInput.files.length > 0) {
-      displayFileName(fileInput.files[0]); // Affiche le nom du fichier
-    }
-  });
+// Envoie le formulaire après 500ms pour l'affichage du loader
+setTimeout(() => {
+form.submit();
+}, 500);
+}
+});
 });
 </script>
