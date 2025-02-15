@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Historique des images</h1>
+
+	{% if images is empty %}
+		<p>Aucune image n'a été uploadée pour le moment.</p>
+	{% else %}
+		<table>
+			<thead>
+				<tr>
+					<th>Image</th>
+					<th>Modèle 3D lien</th>
+					<th>Modèle 3D</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for image in images %}
+					<tr>
+						<td>
+							<img src="{{ asset('uploads/images/' ~ image.filename) }}" alt="Image" width="100">
+						</td>
+						<td>
+							{% if image.resultFilename %}
+								<a href="{{ image.resultFilename }}" download>Télécharger le modèle 3D</a>
+							{% else %}
+								En attente de génération
+							{% endif %}
+						</td>
+						<td>
+							{% if image.resultFilename %}
+								<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+								<model-viewer id="modelViewer" src="{{ image.resultFilename }}" alt="Modèle 3D" auto-rotate camera-controls></model-viewer>
+							{% else %}
+								En attente de génération
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+{% endblock %}

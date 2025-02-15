@@ -72,4 +72,14 @@ class ImageController extends AbstractController
 
         return $this->json(['message' => 'Résultat enregistré avec succès']);
     }
+
+    #[Route('/history', name: 'image_history')]
+    public function history(EntityManagerInterface $entityManager): Response
+    {
+        $images = $entityManager->getRepository(Image::class)->findAll();
+
+        return $this->render('image/history.html.twig', [
+            'images' => $images,
+        ]);
+    }
 }
