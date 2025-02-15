@@ -16,6 +16,9 @@ class Image
     #[ORM\Column(length: 255)]
     private ?string $filename = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $resultFilename = null;
+
     #[Assert\File(maxSize: "1024k", mimeTypes: ["image/jpeg", "image/png"])]
 
     public function getId(): ?int
@@ -31,6 +34,18 @@ class Image
     public function setFilename(string $filename): static
     {
         $this->filename = $filename;
+
+        return $this;
+    }
+
+    public function getResultFilename(): ?string
+    {
+        return $this->resultFilename;
+    }
+
+    public function setResultFilename(?string $resultFilename): static
+    {
+        $this->resultFilename = $resultFilename;
 
         return $this;
     }

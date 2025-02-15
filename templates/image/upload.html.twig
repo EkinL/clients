@@ -78,6 +78,17 @@ console.log("✅ Modèle 3D GLB généré :", glbModelUrl);
 
 document.getElementById('modelViewer').src = glbModelUrl;
 document.getElementById('result').innerHTML = `<p>Modèle 3D généré avec succès.</p>`;
+
+// 🔽🔽🔽 Sauvegarde du résultat dans la base de données 🔽🔽🔽
+fetch("{{ path('save_result') }}", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify(
+{image_id: {{ image_id }}, result_filename: glbModelUrl}
+)
+}).then(response => response.json()).then(data => console.log("✅ Résultat sauvegardé:", data)).catch(error => console.error("❌ Erreur lors de la sauvegarde:", error));
 } else {
 console.error("❌ Erreur lors de la génération du modèle 3D", make3dResult);
 document.getElementById('result').innerText = 'Erreur lors de la génération du modèle 3D.';
@@ -104,5 +115,10 @@ error.message || "Une erreur est survenue."
 
 processImage();
 		</script>
+
+		{% if result_filename is defined %}
+			<h2>Fichier 3D généré :</h2>
+			<a href="{{ result_filename }}" download="modele_3d.glb">Télécharger le modèle 3D</a>
+		{% endif %}
 	{% endif %}
 {% endblock %}
