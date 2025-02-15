@@ -81,14 +81,34 @@ final class ClientsController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_clients_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Clients $client, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
-    {
+    public function edit(
+        Request $request,
+        Clients $client,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        ImageGeneratorService $imageGeneratorService
+    ): Response {
+        set_time_limit(0);
         $form = $this->createForm(ClientsType::class, $client);
         $form->handleRequest($request);
 
-        $picture = $form->get('picture')->getData();
-
         if ($form->isSubmitted() && $form->isValid()) {
+            $picture = $form->get('picture')->getData();
+            $useAI = $form->get('generateWithAI')->getData();
+
+            // 🔽🔽🔽 Gestion de l'IA 🔽🔽🔽
+            if ($useAI) {
+                $prompt = $form->get('prompt')->getData() ?? "Avatar généré";
+                $imageFileName = $imageGeneratorService->generateImage($prompt);
+
+                if (!$imageFileName) {
+                    $this->addFlash('danger', "Erreur : l'image n'a pas pu être générée.");
+                    return $this->redirectToRoute('app_clients_edit', ['id' => $client->getId()]);
+                }
+
+                $client->setPicture($imageFileName);
+                $client->setPrompt($prompt);
+            }
             if ($picture) {
                 $originalFilename = pathinfo($picture->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
@@ -99,20 +119,13 @@ final class ClientsController extends AbstractController
                         $this->getParameter('picture_directory'),
                         $newFilename
                     );
+                    $client->setPicture($newFilename);
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    $this->addFlash('danger', "Erreur lors de l'upload de l'image.");
                 }
-
-                $client->setPicture($newFilename);
             }
 
             $entityManager->persist($client);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_clients_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
             return $this->redirectToRoute('app_clients_index', [], Response::HTTP_SEE_OTHER);
