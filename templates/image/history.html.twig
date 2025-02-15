@@ -1,11 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<h1>Historique des images</h1>
-
 	{% if images is empty %}
 		<p>Aucune image n'a été uploadée pour le moment.</p>
 	{% else %}
+		<h1>Historique des images</h1>
+		<ul role="list" class="divide-y divide-gray-100">
+			{% for image in images %}
+				<li class="flex justify-between gap-x-6 py-5">
+					<div class="flex min-w-0 gap-x-4">
+						<img class="size-56 flex-none bg-gray-50" src="{{ asset('uploads/images/' ~ image.filename) }}" alt="">
+						<div class="min-w-0 flex justify-center align-middle flex-col gap-y-1">
+							{% if image.resultFilename %}
+								<a href="{{ image.resultFilename }}" download>Télécharger le modèle 3D</a>
+							{% else %}
+								En attente de génération
+							{% endif %}
+						</div>
+					</div>
+					<div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+						{% if image.resultFilename %}
+							<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+							<model-viewer id="modelViewer" src="{{ image.resultFilename }}" alt="Modèle 3D" auto-rotate camera-controls class="border"></model-viewer>
+						{% else %}
+							<div class="mt-1 flex items-center gap-x-1.5">
+								<div class="flex-none rounded-full bg-red-500/20 p-1">
+									<div class="size-1.5 rounded-full bg-red-500"></div>
+								</div>
+								<p class="text-sm/6 text-gray-500">En attente de génération</p>
+							</div>
+						{% endif %}
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
 		<table>
 			<thead>
 				<tr>
