@@ -32,4 +32,12 @@ class HomeController extends AbstractController
             'controller_name' => 'chatbotController',
         ]);
     }
+
+    #[Route('/demo', name: 'app_demo')]
+    public function demo(): Response
+    {
+        return $this->render('demo/index.html.twig', [
+            'controller_name' => 'demoController',
+        ]);
+    }
 }
