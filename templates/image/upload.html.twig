@@ -1,0 +1,108 @@
+{# templates/image/upload.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Uploader une image</h1>
+
+	{% for message in app.flashes('error') %}
+		<div class="alert alert-danger">
+			{{ message }}
+		</div>
+	{% endfor %}
+
+	<form method="post" enctype="multipart/form-data">
+		<input type="file" name="image" accept="image/*" required>
+		<button type="submit">Uploader</button>
+	</form>
+
+	{% if filename is defined %}
+		<h2>Image uploadée :</h2>
+		<img src="{{ asset('uploads/images/' ~ filename) }}" alt="Image uploadée">
+
+		<h2>Résultats du traitement :</h2>
+
+		<div id="preprocess-result">
+			<h3>Image prétraitée :</h3>
+			<img id="preprocessedImage" src="" alt="Image prétraitée">
+		</div>
+
+		<div id="generate-mvs-result">
+			<h3>Vues multiples générées :</h3>
+			<img id="generatedMvsImage" src="" alt="Vues multiples générées">
+		</div>
+
+		<div id="model-viewer-container">
+			<h3>Modèle 3D :</h3>
+			<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+			<model-viewer id="modelViewer" src="" alt="Modèle 3D" auto-rotate camera-controls></model-viewer>
+		</div>
+
+		<div id="result">Traitement en cours...</div>
+
+		<script type="module">
+			import {client} from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
+
+async function processImage() {
+const app = await client("TencentARC/InstantMesh");
+const imagePath = "{{ asset('uploads/images/' ~ filename) }}";
+const response = await fetch(imagePath);
+const imageBlob = await response.blob();
+
+try {
+console.log("🔄 Envoi de l'image à /preprocess...");
+const preprocessResult = await app.predict("/preprocess", [imageBlob, true]);
+
+if (preprocessResult ?. data ?. length > 0 && preprocessResult.data[0] ?. url) {
+const processedImageUrl = preprocessResult.data[0].url;
+console.log("✅ Image prétraitée :", processedImageUrl);
+document.getElementById('preprocessedImage').src = processedImageUrl;
+
+console.log("🔄 Téléchargement de l'image prétraitée pour la convertir en Blob...");
+const processedImageResponse = await fetch(processedImageUrl);
+const processedImageBlob = await processedImageResponse.blob();
+
+console.log("🔄 Envoi de l'image prétraitée (en Blob) à /generate_mvs...");
+const generateMvsResult = await app.predict("/generate_mvs", [processedImageBlob, 40, 1]);
+
+if (generateMvsResult ?. data ?. length > 0 && generateMvsResult.data[0] ?. url) {
+const generatedMvsImageUrl = generateMvsResult.data[0].url;
+console.log("✅ Vues multiples générées :", generatedMvsImageUrl);
+document.getElementById('generatedMvsImage').src = generatedMvsImageUrl;
+
+console.log("🔄 Appel à /make3d pour générer le modèle 3D...");
+const make3dResult = await app.predict("/make3d", []);
+
+if (make3dResult ?. data ?. length > 1 && make3dResult.data[1] ?. url) {
+const glbModelUrl = make3dResult.data[1].url;
+console.log("✅ Modèle 3D GLB généré :", glbModelUrl);
+
+document.getElementById('modelViewer').src = glbModelUrl;
+document.getElementById('result').innerHTML = `<p>Modèle 3D généré avec succès.</p>`;
+} else {
+console.error("❌ Erreur lors de la génération du modèle 3D", make3dResult);
+document.getElementById('result').innerText = 'Erreur lors de la génération du modèle 3D.';
+}
+} else {
+console.error("❌ Erreur lors de la génération des vues multiples", generateMvsResult);
+document.getElementById('result').innerText = `Erreur /generate_mvs : ${
+generateMvsResult ?. message || "Problème inconnu"
+}`;
+}
+} else {
+console.error("❌ Erreur lors du prétraitement de l'image", preprocessResult);
+document.getElementById('result').innerText = `Erreur /preprocess : ${
+preprocessResult ?. message || "Problème inconnu"
+}`;
+}
+} catch (error) {
+console.error("❌ Erreur lors du traitement de l'image:", error);
+document.getElementById('result').innerText = `Erreur: ${
+error.message || "Une erreur est survenue."
+}`;
+}
+}
+
+processImage();
+		</script>
+	{% endif %}
+{% endblock %}
